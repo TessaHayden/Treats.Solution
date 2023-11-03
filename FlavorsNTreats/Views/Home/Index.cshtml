@@ -11,41 +11,45 @@
   <p>However, you choose to find your delectable treat, </p>
   <p>please enjoy!</p>
 </div>
-
-<h4>Flavors</h4>
-@if (Model["flavors"].Length == 0)
-{
-  <p>No flavors have been added yet!</p>
-}
-<ul>
-  @foreach (Flavor flavor in Model["flavors"])
-  {
-    <li>@Html.ActionLink(@flavor.Type, "Details", "Flavors", new {id = @flavor.FlavorId})</li>
-  }
-</ul>
-
-@if (User.Identity.IsAuthenticated)
-{
-  <h4>Treats for @User.Identity.Name</h4>
-  @if (Model["treats"].Length == 0)
-  {
-    <p>No treats have been added yet!</p>
-  }
-  <ul>
-    @foreach(Treat treat in Model["treats"])
-    {
-      <li>@Html.ActionLink(@treat.Name, "Details", "Treats", new {id = @treat.TreatId})</li>
-    }
-  </ul>
-}
-else
-{
-  <h4>Treats</h4>
-  <p>Please @Html.ActionLink("Log in", "LogIn", "Account") to view or manage your treats.</p>
-}
-
+  <div class="row">
+    <div class="col-4">
+      <h4>Flavors</h4>
+      @if (Model["flavors"].Length == 0)
+      {
+        <p>No flavors have been added yet!</p>
+      }
+      <ul>
+        @foreach (Flavor flavor in Model["flavors"])
+        {
+          <li>@Html.ActionLink(@flavor.Type, "Details", "Flavors", new {id = @flavor.FlavorId})</li>
+        }
+      </ul>
+    </div>
+    <div class="col-4">
+      @if (User.Identity.IsAuthenticated)
+      {
+        <h4>Treats for @User.Identity.Name</h4>
+        @if (Model["treats"].Length == 0)
+        {
+          <p>No treats have been added yet!</p>
+        }
+        <ul>
+          @foreach(Treat treat in Model["treats"])
+          {
+            <li>@Html.ActionLink(@treat.Name, "Details", "Treats", new {id = @treat.TreatId})</li>
+          }
+        </ul>
+      }
+      else
+      {
+        <h4>Treats</h4>
+        <p>Please @Html.ActionLink("Log in", "LogIn", "Account") to view or manage your treats.</p>
+      }
+  </div>
+</div>
+<hr width="75%" />
 <div class="page-links">
-  <p>@Html.ActionLink("Go to Flavors list", "Index", "Flavors")</p>
-  <p>@Html.ActionLink("Go to Treats list", "Index", "Treats")</p>
-  <p>@Html.ActionLink("Create or manage an account", "Index", "Account")</p>
+  <p class="home-links">@Html.ActionLink("Go to Flavors list", "Index", "Flavors")</p>
+  <p class="home-links">@Html.ActionLink("Go to Treats list", "Index", "Treats")</p>
+    <p class="home-links">@Html.ActionLink("Create or manage an account", "Index", "Account")</p>
 </div>
