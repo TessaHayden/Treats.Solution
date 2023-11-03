@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 using FlavorsNTreats.Models;
 
 namespace FlavorsNTreats
@@ -18,6 +19,7 @@ namespace FlavorsNTreats
           )
         )
       );
+      builder.Services.AddIdentity<Applicationuser, IdentityRole>().AddEntityFrameworkStores<FlavorsNTreatsContext>().AddDefaultTokenProviders();
       WebApplication app = builder.Build();
       app.UseHttpsRedirection();
       app.UseStaticFiles();
