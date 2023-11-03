@@ -28,8 +28,8 @@ namespace FlavorsNTreats.Controllers
       ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
       List<Treat> userTreats = _db.Treats
                           .Where(entry => entry.User.Id == currentUser.Id)
-                          // .Include(model => model.JoinEntities)
-                          .Include(join => join.Flavor)
+                          .Include(model => model.JoinEntities)
+                          .ThenInclude(join => join.Flavor)
                           .ToList();
       return View(userTreats);
     }
