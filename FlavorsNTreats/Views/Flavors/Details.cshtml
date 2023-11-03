@@ -1,0 +1,36 @@
+@{
+  Layout = "_Layout";
+}
+
+@using FlavorsNTreats.Models
+@model FlavorsNTreats.Models.Flavor
+
+<h2>Flavors</h2>
+<hr width="50%" />
+<h3>@Html.DisplayNameFor(model => model.Type): @Html.DisplayNameFor(model => model.Type) </h3>
+
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>No treats have been added to this flavor.</p>
+}
+else
+{
+  <h2>These treats have the flavor you're looking for!</h2>
+  <hr width="50%" />
+  <ul>
+    @foreach (SweetNSavory join in Model.JoinEntities)
+    {
+      <li>Treats: @join.Treat.Name</li>
+      @using (Html.BeginForm("DeleteJoin", "Flavors"))
+      {
+        @Html.Hidden("joinId", @join.SweetNSavoryId)
+        <input type="submit" value="Delete" />
+      }
+    }
+  </ul>
+}
+
+<div class="page-links">
+  <p>@Html.ActionLink("Back to List", "Index")</p>
+  <p>@Html.ActionLink("Home", "Index", "Home")</p>
+</div>

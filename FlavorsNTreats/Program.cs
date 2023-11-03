@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Treats.Models;
+using FlavorsNTreats.Models;
 
-namespace Treats
+namespace FlavorsNTreats
 {
   class Program
   {
@@ -11,7 +11,7 @@ namespace Treats
     {
       WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
       builder.Services.AddControllersWithViews();
-      builder.Services.AddDbContext<TreatsContext>(
+      builder.Services.AddDbContext<FlavorsNTreatsContext>(
         dbContextOptions => dbContextOptions
         .UseMySql(
           builder.Configuration["ConnectionStrings:DefaultConnection"], ServerVersion.AutoDetect(builder.Configuration["ConnectionStrings:DefaultConnection"]

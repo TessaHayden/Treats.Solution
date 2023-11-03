@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using Treats.Models;
+using FlavorsNTreats.Models;
 
-namespace Treats.Controllers
+namespace FlavorsNTreats.Controllers
 {
   public class HomeController : Controller
   {
-    private readonly TreatsContext _db;
-    public HomeController(TreatsContext db)
+    private readonly FlavorsNTreatsContext _db;
+    public HomeController(FlavorsNTreatsContext db)
     {
       _db = db;
     }

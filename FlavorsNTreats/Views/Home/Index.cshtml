@@ -2,7 +2,7 @@
   Layout = "_Layout";
 }
 
-@using Treats.Models
+@using FlavorsNTreats.Models
 
 <h1 id="splash-h1">Pierre's Sweet & Savory Treats</h1>
 <div id="splash-p-tag">
@@ -10,4 +10,7 @@
   <p>To find what you want you may search for flavors you're craving or the type of treat you know you want.</p>
   <p>However, you choose to find your delectable treat, </p>
   <p>please enjoy!</p>
+</div>
+<div class="page-links">
+  <p>@Html.ActionLink("Go to Flavors list", "Index", "Flavors")</p>
 </div>
