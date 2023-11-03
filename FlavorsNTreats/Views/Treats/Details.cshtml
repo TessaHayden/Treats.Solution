@@ -30,5 +30,10 @@
   }
 
   <div class="page-links">
+    <p>@Html.ActionLink("Delete Treat", "Delete", new {id = Model.TreatId})</p>
+    <p>@Html.ActionLink("Edit treat", "Edit", new {id = Model.TreatId})</p>
+    <hr width="50%"/>
+    <p>@Html.ActionLink("Add a flavor", "AddFlavor", new {id = Model.TreatId})</p>
+    <hr width="50%"/>
     <p>@Html.ActionLink("Home", "Index", "Home")</p>
   </div>

@@ -70,7 +70,7 @@ namespace FlavorsNTreats.Controllers
     public ActionResult AddFlavor(Treat treat, int flavorId)
     {
 #nullable enable
-      SweetNSavory? joinEntity = _db.SweetNSavoryTreats.FirstOrDefault(join => (join.Flavorid == flavorId && join.TreatId == treat.TreatId));
+      SweetNSavory? joinEntity = _db.SweetNSavoryTreats.FirstOrDefault(join => (join.FlavorId == flavorId && join.TreatId == treat.TreatId));
       #nullable disable
       if(joinEntity == null && flavorId != 0)
       {
