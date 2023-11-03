@@ -63,27 +63,27 @@ namespace FlavorsNTreats.Controllers
       ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "Name");
       return View(thisFlavor);
     }
-//     [HttpPost]
-//     public ActionResult AddTreat(Flavor flavor, int treatId)
-//     {
-// #nullable enable
-//       SweetNSavory? joinEntity = _db.SweetNSavoryTreats.FirstOrDefault(model => (model.TreatId == treatId && join.FlavorId == flavor.FlavorId));
-//       #nullable disable
-//       if(joinEntity == null && treatId != 0)
-//       {
-//         _db.SweetNSavoryTreats.Add(new SweetNSavory() {
-//           TreatId = treatId;
-//           FlavorId = flavor.FlavorId
-//         });
-//       _db.SaveChanges();
-//       }
-//       return RedirectToAction("Details", new {id = flavor.FlavorId});
-//     }
+    [HttpPost]
+    public ActionResult AddTreat(Flavor flavor, int treatId)
+    {
+#nullable enable
+      SweetNSavory? joinEntity = _db.SweetNSavoryTreats.FirstOrDefault(join => (join.TreatId == treatId && join.FlavorId == flavor.FlavorId));
+      #nullable disable
+      if(joinEntity == null && treatId != 0)
+      {
+        _db.SweetNSavoryTreats.Add(new SweetNSavory() {
+          TreatId = treatId,
+          FlavorId = flavor.FlavorId});
+      _db.SaveChanges();
+      }
+      return RedirectToAction("Details", new {id = flavor.FlavorId});
+    }
     public ActionResult Delete(int id)
     {
       Flavor thisFlavor = _db.Flavors.FirstOrDefault(model => model.FlavorId == id);
       return View(thisFlavor);
     }
+    [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
       Flavor thisFlavor = _db.Flavors.FirstOrDefault(model => model.FlavorId == id);
