@@ -19,7 +19,7 @@ namespace FlavorsNTreats
           )
         )
       );
-      builder.Services.AddIdentity<Applicationuser, IdentityRole>().AddEntityFrameworkStores<FlavorsNTreatsContext>().AddDefaultTokenProviders();
+      builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<FlavorsNTreatsContext>().AddDefaultTokenProviders();
       WebApplication app = builder.Build();
       app.UseHttpsRedirection();
       app.UseStaticFiles();

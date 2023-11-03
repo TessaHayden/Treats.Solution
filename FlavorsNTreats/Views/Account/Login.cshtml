@@ -1,0 +1,30 @@
+@{
+  Layout = "_Layout";
+}
+
+@using FlavorsNTreats.ViewModels
+@model LoginViewModel
+
+<h2>Log in to your account</h2>
+<hr width="50%" />
+
+@if(!ViewData.ModelState.IsValid)
+{
+  @Html.ValidationSummary("Please fix the following error(s) and the resubmit the form.")
+}
+
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(m => m.Email)
+  @Html.TextBoxFor(m => m.Email)
+
+  @Html.LabelFor(m => m.Password)
+  @Html.EditorFor(m => m.Password)
+
+  <input type="submit" value="Log in" class="btn btn-success" />
+}
+
+<div class="page-links">
+  <p>@Html.ActionLink("Register for an account", "Register")</p>
+  <p>@Html.ActionLink("Back to accounts page", "Index")</p>
+</div>

@@ -1,26 +1,37 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 using System.Collections.Generic;
 using System.Linq;
 using FlavorsNTreats.Models;
 
 namespace FlavorsNTreats.Controllers
 {
+  [Authorize]
   public class TreatsController : Controller
   {
     private readonly FlavorsNTreatsContext _db;
-    public TreatsController(FlavorsNTreatsContext db)
+    private readonly UserManager<ApplicationUser> _userManager;
+    public TreatsController(UserManager<ApplicationUser> userManager,FlavorsNTreatsContext db)
     {
+      _userManager = userManager;
       _db = db;
     }
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-      List<Treat> model = _db.Treats
-                          .Include(model => model.JoinEntities)
-                          .ThenInclude(join => join.Flavor)
+      string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+      List<Treat> userTreats = _db.Treats
+                          .Where(entry => entry.User.Id == currentUser.Id)
+                          // .Include(model => model.JoinEntities)
+                          .Include(join => join.Flavor)
                           .ToList();
-      return View(model);
+      return View(userTreats);
     }
     public ActionResult Create()
     {
@@ -28,16 +39,22 @@ namespace FlavorsNTreats.Controllers
       return View();
     }
     [HttpPost]
-    public ActionResult Create(Treat treat)
+    public async Task <ActionResult> Create(Treat treat, int FlavorId)
     {
       if(!ModelState.IsValid)
       {
         ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Type");
         return View(treat);
       }
-      _db.Treats.Add(treat);
-      _db.SaveChanges();
-      return RedirectToAction("Index");
+      else
+      {
+        string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+        treat.User = currentUser;
+        _db.Treats.Add(treat);
+        _db.SaveChanges();
+        return RedirectToAction("Index");
+      }
     }
     public ActionResult Details(int id)
     {
