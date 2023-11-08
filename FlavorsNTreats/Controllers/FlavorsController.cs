@@ -1,17 +1,25 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 using System.Collections.Generic;
 using System.Linq;
 using FlavorsNTreats.Models;
 
 namespace FlavorsNTreats.Controllers
 {
+  [Authorize]
   public class FlavorsController : Controller
   {
     private readonly FlavorsNTreatsContext _db;
-    public FlavorsController(FlavorsNTreatsContext db)
+    private readonly UserManager<ApplicationUser> _userManager;
+    public FlavorsController(UserManager<ApplicationUser> userManager, FlavorsNTreatsContext db)
     {
+      _userManager = userManager;
       _db = db;
     }
     public ActionResult Index()
@@ -21,20 +29,26 @@ namespace FlavorsNTreats.Controllers
     }
     public ActionResult Create()
     {
-      ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Type");
+      ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "Name");
       return View();
     }
     [HttpPost]
-    public ActionResult Create(Flavor flavor)
+    public async Task<ActionResult> Create(Flavor flavor, int FlavorId)
     {
       if(!ModelState.IsValid)
       {
-        ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Type");
+        ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "Name");
         return View(flavor);
       }
-      _db.Flavors.Add(flavor);
-      _db.SaveChanges();
-      return RedirectToAction("Index");
+      else
+      {
+        string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+        flavor.User = currentUser;
+        _db.Flavors.Add(flavor);
+        _db.SaveChanges();
+        return RedirectToAction("Index");
+      }
     }
     public ActionResult Details (int id)
     {
@@ -51,8 +65,11 @@ namespace FlavorsNTreats.Controllers
       return View(thisFlavor);
     }
     [HttpPost]
-    public ActionResult Edit(Flavor flavor)
+    public async Task<ActionResult> Edit(Flavor flavor)
     {
+      string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+      flavor.User = currentUser;
       _db.Flavors.Update(flavor);
       _db.SaveChanges();
       return RedirectToAction("Index");

@@ -3,6 +3,7 @@ using System;
 using FlavorsNTreats.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlavorsNTreats.Migrations
 {
     [DbContext(typeof(FlavorsNTreatsContext))]
-    partial class FlavorsNTreatsContextModelSnapshot : ModelSnapshot
+    [Migration("20231108031849_FlavorModelAddApplicationUser")]
+    partial class FlavorModelAddApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

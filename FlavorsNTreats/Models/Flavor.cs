@@ -12,6 +12,7 @@ namespace FlavorsNTreats.Models
     [Range(1, int.MaxValue, ErrorMessage= "You must start by entering a treat flavor.")]
     public string Description { get; set; }
     public List<SweetNSavory> JoinEntities { get; }
+    public ApplicationUser User { get; set; }
 
   }
 }

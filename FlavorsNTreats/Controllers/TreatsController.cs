@@ -39,7 +39,7 @@ namespace FlavorsNTreats.Controllers
       return View();
     }
     [HttpPost]
-    public async Task <ActionResult> Create(Treat treat, int FlavorId)
+    public async Task<ActionResult> Create(Treat treat, int FlavorId)
     {
       if(!ModelState.IsValid)
       {
